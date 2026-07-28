@@ -34,7 +34,7 @@ export default function ProjectCard() {
   return (
     <section id="project" className="relative py-32 px-6 overflow-hidden">
       {/* 照片背景 */}
-      <img src="/project-bg.png" alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <img src="./project-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/35 via-transparent to-[#050505]/70 pointer-events-none" />
       <div ref={ref} className="max-w-[1700px] mx-auto">
         {/* Section Header */}

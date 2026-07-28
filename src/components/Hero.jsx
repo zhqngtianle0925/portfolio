@@ -197,7 +197,12 @@ export default function Hero() {
   const [isMuted, setIsMuted] = useState(true)
   const toggleSound = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted
+      const v = videoRef.current
+      v.muted = !isMuted
+      // 浏览器要求用户交互后才能播放带音频的视频
+      if (v.muted === false) {
+        v.play().catch(() => {})
+      }
       setIsMuted(!isMuted)
     }
   }
