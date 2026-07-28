@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张清慧 | 数据科学与大数据技术 · 个人主页</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2332;
+    --primary: #00d4ff;
+    --primary-dim: #0099cc;
+    --accent: #7c3aed;
+    --accent2: #06b6d4;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --border: #1e293b;
+    --glow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+    --glow-accent: 0 0 20px rgba(124, 58, 237, 0.2), 0 0 60px rgba(124, 58, 237, 0.08);
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── 粒子/网格背景 ── */
+  .bg-grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.04) 0%, transparent 50%),
+      linear-gradient(rgba(0, 212, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+  }
+
+  /* ── 顶部导航 ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(10, 14, 23, 0.75);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 1.25rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-dim); text-decoration: none; font-size: 0.9rem;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--primary); }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+
+  /* ── Hero 区域 ── */
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 6rem 2rem 4rem;
+  }
+  .hero-inner {
+    max-width: 900px; text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--primary);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50px; padding: 0.4rem 1.2rem;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(0, 212, 255, 0.1); }
+    50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+  }
+  .hero-name {
+    font-size: 4rem; font-weight: 800; line-height: 1.15;
+    background: linear-gradient(135deg, #e2e8f0 0%, #00d4ff 50%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .hero-subtitle {
+    font-family: var(--font-mono);
+    font-size: 1.3rem; color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    min-height: 2rem;
+  }
+  .hero-subtitle .cursor-blink {
+    display: inline-block;
+    width: 2px; height: 1.2em;
+    background: var(--primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .hero-desc {
+    font-size: 1.05rem; color: var(--text-dim);
+    max-width: 650px; margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-desc strong {
+    color: var(--primary); font-weight: 600;
+  }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.8rem; border-radius: 50px;
+    font-family: var(--font-sans); font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--accent2));
+    color: #0a0e17; box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 30px rgba(0, 212, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid rgba(0, 212, 255, 0.4);
+  }
+  .btn-outline:hover {
+    background: rgba(0, 212, 255, 0.06);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+
+  /* ── 区块通用 ── */
+  .section {
+    position: relative; z-index: 1;
+    padding: 5rem 2rem;
+  }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--primary); letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem;
+    color: var(--text);
+  }
+  .section-title span {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── 自我介绍卡片 ── */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    align-items: start;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    transition: all 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover {
+    border-color: rgba(0, 212, 255, 0.25);
+    background: var(--bg-card-hover);
+    box-shadow: var(--glow);
+    transform: translateY(-4px);
+  }
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .icon-about { background: rgba(0, 212, 255, 0.1); color: var(--primary); }
+  .icon-edu { background: rgba(124, 58, 237, 0.1); color: var(--accent); }
+  .icon-skills { background: rgba(6, 182, 212, 0.1); color: var(--accent2); }
+  .card h3 { font-size: 1.25rem; margin-bottom: 0.8rem; color: var(--text); }
+  .card p, .card li { color: var(--text-dim); font-size: 0.95rem; }
+  .card ul { list-style: none; padding: 0; }
+  .card li { padding: 0.35rem 0; padding-left: 1.2rem; position: relative; }
+  .card li::before {
+    content: '▹';
+    position: absolute; left: 0;
+    color: var(--primary);
+  }
+
+  /* 技能标签 */
+  .skill-tags {
+    display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
+  }
+  .skill-tag {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 50px;
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    color: var(--primary);
+    transition: all 0.3s;
+  }
+  .skill-tag:hover {
+    background: rgba(0, 212, 255, 0.12);
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+    transform: translateY(-2px);
+  }
+  .skill-tag.accent {
+    background: rgba(124, 58, 237, 0.06);
+    border-color: rgba(124, 58, 237, 0.15);
+    color: #a78bfa;
+  }
+  .skill-tag.accent:hover {
+    background: rgba(124, 58, 237, 0.12);
+    border-color: #a78bfa;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* ── 时间线 ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
+  }
+  .timeline-item { position: relative; margin-bottom: 2rem; }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -2.35rem; top: 0.5rem;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+  .timeline-item h4 { color: var(--text); font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .timeline-item .time { font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary); }
+  .timeline-item p { color: var(--text-dim); font-size: 0.9rem; }
+
+  /* ── 联系方式 + 二维码 ── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.3s;
+    text-decoration: none; color: inherit;
+  }
+  .contact-item:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: var(--glow);
+    transform: translateX(6px);
+  }
+  .contact-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+    background: rgba(0, 212, 255, 0.08);
+    color: var(--primary);
+  }
+  .contact-text .label {
+    font-size: 0.75rem; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .contact-text .value {
+    font-size: 0.95rem; color: var(--text); font-weight: 500;
+  }
+
+  /* QR 码区域 */
+  .qr-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .qr-wrapper {
+    width: 200px; height: 200px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qr-wrapper canvas,
+  .qr-wrapper img {
+    width: 100%; height: 100%;
+  }
+  .qr-label {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--text-dim); margin-bottom: 0.3rem;
+  }
+  .qr-tip {
+    font-size: 0.85rem; color: var(--text-dim);
+  }
+
+  /* ── 页脚 ── */
+  .footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim); font-size: 0.85rem;
+  }
+  .footer span { color: var(--primary); }
+
+  /* ── 滚动渐显动画 ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* 错开延迟 */
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* 已可见元素不再隐藏（防止重复动画干扰） */
+  .reveal-done {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── 终端效果卡片 ── */
+  .terminal-card {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+  .terminal-header {
+    background: #161b22;
+    padding: 0.6rem 1rem;
+    display: flex; gap: 8px;
+    border-bottom: 1px solid #30363d;
+  }
+  .terminal-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .terminal-dot.red { background: #ff5f56; }
+  .terminal-dot.yellow { background: #ffbd2e; }
+  .terminal-dot.green { background: #27ca40; }
+  .terminal-body {
+    padding: 1.5rem;
+    font-size: 0.85rem; line-height: 1.8;
+  }
+  .terminal-body .prompt { color: var(--primary); }
+  .terminal-body .cmd { color: #79c0ff; }
+  .terminal-body .output { color: #8b949e; }
+  .terminal-body .highlight { color: #d2a8ff; }
+  .terminal-cursor {
+    display: inline-block;
+    width: 8px; height: 16px;
+    background: var(--primary);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom; margin-left: 2px;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ── 返回顶部按钮 ── */
+  .back-to-top {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 90;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    opacity: 0; visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s;
+  }
+  .back-to-top.show {
+    opacity: 1; visibility: visible;
+    transform: translateY(0);
+  }
+  .back-to-top:hover {
+    border-color: var(--primary);
+    box-shadow: var(--glow);
+    transform: translateY(-3px);
+  }
+
+  /* ── 响应式（仅适配桌面端，≥1024px） ── */
+  @media (max-width: 1024px) {
+    .hero-name { font-size: 3rem; }
+    .about-grid,
+    .contact-grid { grid-template-columns: 1fr; }
+    .section { padding: 3rem 1.5rem; }
+    .section-title { font-size: 2rem; }
+    .hero { padding: 5rem 1.5rem 3rem; min-height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<!-- ════════════ 导航 ════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">&lt; ZQH·Portfolio /&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about" class="active">关于我</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#contact">联系方式</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════════════ Hero ════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🚀 Data Science &amp; Big Data</div>
+    <h1 class="hero-name">你好，我是张清慧</h1>
+    <p class="hero-subtitle" id="typewriter"></p>
+    <p class="hero-desc reveal">
+      热衷于用<strong>数据</strong>讲述故事，用<strong>算法</strong>解决问题。
+      在数据挖掘、机器学习与大数据处理领域持续探索，
+      期待在真实业务场景中将数据转化为<strong>可执行的洞察</strong>。
+    </p>
+    <div class="hero-actions reveal reveal-delay-2">
+      <a href="#about" class="btn btn-primary">
+        <span>了解更多</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 14l-7 7-7-7"/><path d="M12 21V3"/></svg>
+      </a>
+      <a href="#contact" class="btn btn-outline">联系我</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 自我介绍 ════════════ -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="section-label reveal">// 01. 关于我</div>
+    <h2 class="section-title reveal reveal-delay-1">自我介绍 <span>& 教育背景</span></h2>
+
+    <div class="about-grid">
+      <!-- 左侧：终端风格介绍 -->
+      <div class="terminal-card reveal reveal-delay-2">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">visitor@portfolio:~$</span> <span class="cmd">cat about_me.txt</span></div>
+          <div style="margin-top:1rem;">
+            <span class="output">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span><br>
+            <span class="output">姓名：</span><span class="highlight">张清慧</span><br>
+            <span class="output">专业：</span><span class="highlight">数据科学与大数据技术</span><br>
+            <span class="output">学历：</span><span class="highlight">本科 · 2026届</span><br>
+            <span class="output">学校：</span><span class="highlight">信息工程大学</span><br>
+            <span class="output">城市：</span><span class="highlight">成都</span><br>
+            <span class="output">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+          </div>
+          <div style="margin-top:1rem;">
+            <span class="prompt">visitor@portfolio:~$</span> <span class="cmd">echo </span><span class="highlight">"热爱数据，忠于探索"</span>
+          </div>
+          <div style="margin-top:0.5rem;">
+            <span class="output">热爱数据，忠于探索</span>
+            <span class="terminal-cursor"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：个人特质 & 教育 -->
+      <div>
+        <div class="card reveal reveal-delay-2" style="margin-bottom:1.5rem;">
+          <div class="card-icon icon-about">💡</div>
+          <h3>个人特质</h3>
+          <p>
+            我是一个对技术充满热情的数据人。善于从海量数据中发现规律，
+            具备扎实的统计学基础和编程能力。在团队协作中乐于分享、主动沟通，
+            对新技术始终保持好奇心与学习动力。
+          </p>
+        </div>
+
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon icon-edu">🎓</div>
+          <h3>教育经历</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="time">2022.09 – 2026.06</div>
+              <h4>数据科学与大数据技术 · 本科</h4>
+              <p>信息工程大学 · 计算机与数据科学学院</p>
+            </div>
+            <div class="timeline-item">
+              <div class="time">GPA 3.6 / 4.0</div>
+              <h4>主修课程</h4>
+              <p>机器学习、数据挖掘、大数据技术基础、Python 程序设计、统计学、深度学习、数据可视化、分布式计算</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 技能 ════════════ -->
+<section class="section" id="skills" style="padding-top:2rem;">
+  <div class="section-inner">
+    <div class="section-label reveal">// 02. 技术栈</div>
+    <h2 class="section-title reveal reveal-delay-1">专业技能 <span>& 工具</span></h2>
+
+    <div class="about-grid">
+      <div class="card reveal reveal-delay-1">
+        <div class="card-icon icon-skills">🧠</div>
+        <h3>数据分析 & 机器学习</h3>
+        <p style="margin-bottom:1rem;">熟练运用主流数据科学技术栈，具备从数据清洗到建模评估的完整项目经验。</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Matplotlib</span>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2">
+        <div class="card-icon icon-about">⚡</div>
+        <h3>大数据 & 工程能力</h3>
+        <p style="margin-bottom:1rem;">了解大数据处理框架，具备一定的数据工程与部署能力。</p>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Spark</span>
+          <span class="skill-tag accent">Hadoop</span>
+          <span class="skill-tag accent">Hive</span>
+          <span class="skill-tag accent">Docker</span>
+          <span class="skill-tag accent">Git</span>
+          <span class="skill-tag accent">Linux</span>
+          <span class="skill-tag accent">Flask</span>
+          <span class="skill-tag accent">HTML/CSS/JS</span>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2">
+        <div class="card-icon icon-edu">📊</div>
+        <h3>项目经历</h3>
+        <ul>
+          <li><strong>用户行为分析平台</strong> — 基于 Spark 的日志分析与用户画像构建</li>
+          <li><strong>商品推荐系统</strong> — 协同过滤 + 深度学习混合推荐模型</li>
+          <li><strong>舆情情感分析</strong> — NLP 文本分类与可视化仪表板</li>
+          <li><strong>销售预测模型</strong> — 时间序列分析与特征工程实践</li>
+        </ul>
+      </div>
+
+      <div class="card reveal reveal-delay-3">
+        <div class="card-icon icon-skills">🏆</div>
+        <h3>证书 & 荣誉</h3>
+        <ul>
+          <li>全国大学生数学建模竞赛 省级二等奖</li>
+          <li>大学生创新创业项目 国家级立项</li>
+          <li>CET-6 英语六级</li>
+          <li>校级优秀学生奖学金</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 联系方式 + 二维码 ════════════ -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="section-label reveal">// 03. 联系我</div>
+    <h2 class="section-title reveal reveal-delay-1">联系方式 <span>& 二维码</span></h2>
+
+    <div class="contact-grid">
+      <!-- 联系方式列表 -->
+      <div class="contact-info">
+        <a href="mailto:zqh_work@163.com" class="contact-item reveal reveal-delay-1">
+          <div class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+          </div>
+          <div class="contact-text">
+            <div class="label">电子邮箱</div>
+            <div class="value">zqh_work@163.com</div>
+          </div>
+        </a>
+
+        <a href="tel:+8618628736617" class="contact-item reveal reveal-delay-1">
+          <div class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-text">
+            <div class="label">电话</div>
+            <div class="value">+86 186-2873-6617</div>
+          </div>
+        </a>
+
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-text">
+            <div class="label">所在城市</div>
+            <div class="value">成都</div>
+          </div>
+        </div>
+
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div class="contact-text">
+            <div class="label">LinkedIn</div>
+            <div class="value">linkedin.com/in/zqh666</div>
+          </div>
+        </div>
+
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="contact-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77 5.44 5.44 0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          </div>
+          <div class="contact-text">
+            <div class="label">GitHub</div>
+            <div class="value">github.com/zqh666</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 二维码区域 -->
+      <div class="card qr-card reveal reveal-delay-2" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <h3 style="margin-bottom:0.25rem;">📱 扫码联系</h3>
+        <p style="color:var(--text-dim);font-size:0.85rem;margin-bottom:1.5rem;">微信扫一扫，添加好友</p>
+
+        <div class="qr-wrapper" id="qrCodeContainer">
+          <!-- QRCode.js 将在此生成真实二维码 -->
+        </div>
+
+        <div class="qr-label">WeChat / 微信</div>
+        <div class="qr-tip" style="margin-top:0.5rem;">
+          💬 期待与您交流，欢迎随时联系
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 页脚 ════════════ -->
+<footer class="footer">
+  <p>© 2026 <span>张清慧</span> · Built with ❤️ &amp; Code · Data Science &amp; Big Data</p>
+</footer>
+
+<!-- ════════════ 返回顶部 ════════════ -->
+<button class="back-to-top" id="backToTop" title="返回顶部" aria-label="返回顶部">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- ════════════ 脚本：二维码 + 交互 ════════════ -->
+<!-- 引入 qrcode.js 库生成真实二维码 -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+</script>
+<script>
+(function() {
+  // ── 1. 生成真实微信二维码 ──
+  var qrContainer = document.getElementById('qrCodeContainer');
+  if (qrContainer && typeof QRCode !== 'undefined') {
+    // 使用联系方式信息生成二维码（实际使用时替换为真实微信号）
+    var contactInfo = 'WECHAT:zqh_wechat';
+    new QRCode(qrContainer, {
+      text: contactInfo,
+      width: 176,
+      height: 176,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else if (qrContainer) {
+    // 回退：显示占位提示
+    qrContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#94a3b8;font-size:13px;">二维码<br>加载中...</div>';
+  }
+
+  // ── 2. 打字机效果 ──
+  var typewriterEl = document.getElementById('typewriter');
+  if (typewriterEl) {
+    var phrases = [
+      '数据科学 与 大数据 专业 · 应届毕业生',
+      '用数据驱动决策，用算法创造价值',
+      '持续学习，保持好奇，追求卓越'
+    ];
+    var phraseIdx = 0;
+    var charIdx = 0;
+    var isDeleting = false;
+    var typeSpeed = 80;
+    var deleteSpeed = 40;
+    var pauseEnd = 2000;
+    var pauseStart = 500;
+
+    function typeLoop() {
+      var current = phrases[phraseIdx];
+      if (isDeleting) {
+        typewriterEl.innerHTML = current.substring(0, charIdx - 1) + '<span class="cursor-blink"></span>';
+        charIdx--;
+      } else {
+        typewriterEl.innerHTML = current.substring(0, charIdx + 1) + '<span class="cursor-blink"></span>';
+        charIdx++;
+      }
+
+      if (!isDeleting && charIdx === current.length) {
+        // 打完，停顿后开始删除
+        setTimeout(function() { isDeleting = true; typeLoop(); }, pauseEnd);
+        return;
+      }
+
+      if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        // 删完，停顿后开始打下一句
+        setTimeout(typeLoop, pauseStart);
+        return;
+      }
+
+      setTimeout(typeLoop, isDeleting ? deleteSpeed : typeSpeed);
+    }
+
+    // 初始延迟后启动
+    setTimeout(typeLoop, 500);
+  }
+
+  // ── 3. 滚动渐显动画 (IntersectionObserver) ──
+  var revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1
+    };
+
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // 动画完成后标记，防止重复触发
+          setTimeout(function() {
+            entry.target.classList.add('reveal-done');
+          }, 800);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealElements.forEach(function(el) {
+      // 初始状态下隐藏（opacity:0 由 CSS 控制）
+      revealObserver.observe(el);
+    });
+  } else {
+    // 降级：不支持的浏览器直接显示
+    revealElements.forEach(function(el) {
+      el.classList.add('visible', 'reveal-done');
+    });
+  }
+
+  // ── 4. 导航滚动高亮 ──
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var sections = [];
+  navLinks.forEach(function(link) {
+    var href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      var section = document.querySelector(href);
+      if (section) sections.push({ link: link, section: section });
+    }
+  });
+
+  function updateActiveNav() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var windowHeight = window.innerHeight;
+    var currentId = null;
+
+    sections.forEach(function(item) {
+      var top = item.section.offsetTop;
+      // 当前 section 顶部越过视口 1/3 处即切换
+      if (scrollY + windowHeight / 3 >= top) {
+        currentId = item.link.getAttribute('href');
+      }
+    });
+
+    navLinks.forEach(function(link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === currentId) {
+        link.classList.add('active');
+      }
+    });
+
+    // 如果滚到页面底部，激活最后一个
+    if ((window.innerHeight + scrollY) >= document.body.offsetHeight - 100) {
+      navLinks.forEach(function(l) { l.classList.remove('active'); });
+      if (navLinks.length > 0) navLinks[navLinks.length - 1].classList.add('active');
+    }
+  }
+
+  var scrollTicking = false;
+  window.addEventListener('scroll', function() {
+    if (!scrollTicking) {
+      requestAnimationFrame(function() {
+        updateActiveNav();
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  });
+  updateActiveNav(); // 初始状态
+
+  // ── 5. 返回顶部按钮 ──
+  var backToTopBtn = document.getElementById('backToTop');
+  if (backToTopBtn) {
+    var topBtnTicking = false;
+    window.addEventListener('scroll', function() {
+      if (!topBtnTicking) {
+        requestAnimationFrame(function() {
+          if (window.pageYOffset > 500) {
+            backToTopBtn.classList.add('show');
+          } else {
+            backToTopBtn.classList.remove('show');
+          }
+          topBtnTicking = false;
+        });
+        topBtnTicking = true;
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
