@@ -212,8 +212,8 @@ export default function About() {
       {/* ── 太空感 Canvas 叠加 (星空 + 流星 + 星云) ── */}
       <canvas ref={canvasRef} className="absolute inset-0 z-[2] pointer-events-none" />
 
-      {/* ── 背景音乐（仅用户点击后加载，避免阻塞首屏）── */}
-      <audio ref={audioRef} loop preload="none">
+      {/* ── 背景音乐 ── */}
+      <audio ref={audioRef} loop preload="auto">
         <source src="./bgm.mp3" type="audio/mpeg" />
       </audio>
 

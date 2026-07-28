@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import {
   FiBarChart2,
@@ -47,40 +47,13 @@ const capabilities = [
 
 export default function SkillsGrid() {
   const ref = useRef(null)
-  const sectionRef = useRef(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
-  const handleMove = useCallback((e) => {
-    if (!sectionRef.current) return
-    const rect = sectionRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    setTilt({ x: x * 6, y: -y * 5 })
-  }, [])
-
-  const handleLeave = () => setTilt({ x: 0, y: 0 })
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative py-32 px-6 overflow-hidden"
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ perspective: '1400px' }}
-    >
-      {/* 8K 3D 图片背景 */}
-      <img
-        src="/skills-bg.jpg"
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          filter: 'contrast(1.1) saturate(1.15) brightness(1.1)',
-          imageRendering: 'crisp-edges',
-          transform: `scale(1.15) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-          transition: 'transform 0.25s ease-out',
-        }}
-      />
+    <section className="relative py-32 px-6 overflow-hidden">
+      {/* 照片背景 */}
+      <img src="./skills-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/55 via-transparent to-[#050505]/80 pointer-events-none" />
       <div ref={ref} className="max-w-[1700px] mx-auto">
         {/* Section Header */}
         <motion.div
