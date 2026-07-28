@@ -198,7 +198,7 @@ export default function About() {
 
       {/* ── 3D 图片背景 ── */}
       <img
-        src="./skills-bg.jpg"
+        src="./about-bg.jpg"
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
         style={{
