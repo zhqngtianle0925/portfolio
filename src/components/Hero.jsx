@@ -197,8 +197,8 @@ export default function Hero() {
   const [isMuted, setIsMuted] = useState(true)
   const toggleSound = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted
-      setIsMuted(videoRef.current.muted)
+      videoRef.current.muted = !isMuted
+      setIsMuted(!isMuted)
     }
   }
 
@@ -255,7 +255,7 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-700"
             style={{ opacity: videoReady ? 1 : 0 }}
             autoPlay
-            muted
+            muted={isMuted}
             loop
             playsInline
             preload="metadata"
