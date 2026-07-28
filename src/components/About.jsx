@@ -198,7 +198,7 @@ export default function About() {
 
       {/* ── 3D 图片背景 ── */}
       <img
-        src="/about-bg.jpg"
+        src="./skills-bg.jpg"
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
         style={{
@@ -212,9 +212,9 @@ export default function About() {
       {/* ── 太空感 Canvas 叠加 (星空 + 流星 + 星云) ── */}
       <canvas ref={canvasRef} className="absolute inset-0 z-[2] pointer-events-none" />
 
-      {/* ── 背景音乐 ── */}
-      <audio ref={audioRef} loop preload="auto">
-        <source src="/bgm.mp3" type="audio/mpeg" />
+      {/* ── 背景音乐（仅用户点击后加载，避免阻塞首屏）── */}
+      <audio ref={audioRef} loop preload="none">
+        <source src="./bgm.mp3" type="audio/mpeg" />
       </audio>
 
       {/* ── 轻量遮罩 ── */}
@@ -243,7 +243,7 @@ export default function About() {
           >
             <div className="w-48 h-60 rounded-2xl border border-white/[0.1] mb-8 overflow-hidden">
               <img
-                src="/photo.png"
+                src="./photo.png"
                 alt="张清慧"
                 className="w-full h-full object-cover"
               />

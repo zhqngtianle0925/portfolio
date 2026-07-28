@@ -4,7 +4,14 @@ import { FiVolume2, FiVolumeX } from 'react-icons/fi'
 // ═══════════════════════════════════════
 // 🎬 视频背景设置：将你的视频文件放到 public/ 目录下，修改下方文件名
 // ═══════════════════════════════════════
-const VIDEO_SRC = '/bg.mp4'
+const VIDEO_SRC_MP4 = './bg.mp4'
+const VIDEO_SRC_WEBM = './bg.webm' // 如果生成了 WebM 版本就启用
+const VIDEO_POSTER = './bg-poster.webp'
+
+// 移动端检测（静态图代替视频）
+const isMobile = /Mobi|Android|iPhone|iPad/i.test(
+  typeof navigator !== 'undefined' ? navigator.userAgent : ''
+)
 
 export default function Hero() {
   const canvasRef = useRef(null)
@@ -12,6 +19,23 @@ export default function Hero() {
   const videoRef = useRef(null)
   const mouseRef = useRef({ x: 0.5, y: 0.5 })
   const targetRef = useRef({ x: 0.5, y: 0.5 })
+
+  // ── 视频加载状态 ──
+  const [videoReady, setVideoReady] = useState(false)
+
+  // 视频 canplaythrough 后再显示，避免缓冲卡顿
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || isMobile) return
+    const handleReady = () => setVideoReady(true)
+    // 如果视频已经缓冲够了就直接显示
+    if (video.readyState >= 3) {
+      setVideoReady(true)
+    } else {
+      video.addEventListener('canplaythrough', handleReady)
+    }
+    return () => video.removeEventListener('canplaythrough', handleReady)
+  }, [])
 
   // ── 鼠标追踪 ──
   const handleMouseMove = useCallback((e) => {
@@ -26,8 +50,9 @@ export default function Hero() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [handleMouseMove])
 
-  // ── Canvas 叠加层：樱花 + 星光 + 鼠标光晕 ──
+  // ── Canvas 叠加层：樱花 + 星光 + 鼠标光晕（桌面端）──
   useEffect(() => {
+    if (isMobile) return // 移动端跳过 canvas，省性能
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -35,14 +60,19 @@ export default function Hero() {
     let time = 0
 
     const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      // 限制 canvas 分辨率，减少 GPU 负担
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+      canvas.width = window.innerWidth * dpr
+      canvas.height = window.innerHeight * dpr
+      canvas.style.width = window.innerWidth + 'px'
+      canvas.style.height = window.innerHeight + 'px'
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     resize()
     window.addEventListener('resize', resize)
 
-    // 樱花
-    const petals = Array.from({ length: 55 }, () => ({
+    // 樱花（减少数量）
+    const petals = Array.from({ length: 30 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * 12 + 5,
@@ -55,8 +85,8 @@ export default function Hero() {
       rotSpeed: (Math.random() - 0.5) * 0.025,
     }))
 
-    // 星光
-    const sparkles = Array.from({ length: 70 }, () => ({
+    // 星光（减少数量）
+    const sparkles = Array.from({ length: 40 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * 2.2 + 0.4,
@@ -204,18 +234,41 @@ export default function Hero() {
         </span>
       </div>
 
-      {/* ── Layer 0: 视频背景 ── */}
-      <video
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-      >
-        <source src={VIDEO_SRC} type="video/mp4" />
-      </video>
+      {/* ── Layer 0: 视频背景 / 移动端降级为静态图 ── */}
+      {isMobile ? (
+        <img
+          src={VIDEO_POSTER}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
+      ) : (
+        <>
+          {/* Poster 占位图：视频未就绪时显示 */}
+          <img
+            src={VIDEO_POSTER}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-700"
+            style={{ opacity: videoReady ? 0 : 1 }}
+          />
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-700"
+            style={{ opacity: videoReady ? 1 : 0 }}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={VIDEO_POSTER}
+            disablePictureInPicture
+            disableRemotePlayback
+          >
+            {/* WebM 优先（体积更小），MP4 兜底 */}
+            <source src={VIDEO_SRC_WEBM} type="video/webm" />
+            <source src={VIDEO_SRC_MP4} type="video/mp4" />
+          </video>
+        </>
+      )}
 
       {/* ── Layer 1: Canvas 叠加效果层 (樱花 + 星光 + 光柱) ── */}
       <canvas ref={canvasRef} className="absolute inset-0 z-[2] pointer-events-none" />

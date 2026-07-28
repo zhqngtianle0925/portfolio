@@ -232,13 +232,17 @@ export default function InternshipCards() {
       <video
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay muted loop playsInline
+        preload="metadata"
+        poster="./internship-bg-poster.webp"
+        disablePictureInPicture
+        disableRemotePlayback
         style={{
           filter: 'contrast(1.2) saturate(1.4) brightness(1.8)',
           transform: `scale(1.15) rotateX(${bgTilt.y}deg) rotateY(${bgTilt.x}deg)`,
           transition: 'transform 0.3s ease-out',
         }}
       >
-        <source src="/internship-bg.mp4" type="video/mp4" />
+        <source src="./internship-bg.mp4" type="video/mp4" />
       </video>
 
       {/* ── Canvas 粒子装饰 ── */}
